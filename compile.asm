@@ -118,7 +118,7 @@ importsprite ColonelBusterSprite,"Sprites/dumps/Various_Buster_Tips_with_Colonel
 importsprite HeatBeast,"Sprites/dumps/HeatBeast.dmp"
 importSprite KernelEmotion,"Sprites/bins/EmotionBeastAndCross.img.bin"
 importSprite KernelTiredEmotion, "Sprites/bins/ColonelTired.img.bin"
-
+importSprite BeastOutUnCompressed, "Sprites/dumps/beastout.dmp"
 
 
 
@@ -427,8 +427,21 @@ SecondType:
 .org listofsprites +0xC
 .dw ColonelBusterSprite
 
+
+.vorga 0xE6580,0xE5240
+.dw 0x1C5
+
+.vorga 0xE2B24,0xE17E4
+.dw 0x1C5
+
+
+.org listofsprites+0x5*4
+.dw BeastOutUnCompressed
+
 .definelabel newPaletteAddress,MegamanNewPalette-0x81D8004
 
 pointerrecurSpritePalette 0x14,0x1D8068,0x1D866C,newPaletteAddress
+
+
 
 .close
