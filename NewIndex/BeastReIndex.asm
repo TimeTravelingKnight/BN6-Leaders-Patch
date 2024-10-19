@@ -10,6 +10,8 @@ bl 0x801319C
 UpdateTurnCount:
 cmp r0, Kernel
 beq @@REGULARCROSS
+cmp r0, Proto
+beq @@REGULARCROSS
 cmp r0,0xB
 blt @@REGULARCROSS
 mov r15,r14
@@ -22,6 +24,8 @@ BeastNewIndex:
 mov r4,beastADD
 cmp r1,Kernel
 beq @@KernelBeastOut
+cmp r1,Proto
+beq @@KernelBeastOut
 sub r1,constToSub
 mov r15,r14
 @@KernelBeastOut:
@@ -30,6 +34,8 @@ mov r15,r14
 
 BeastoutTime:
 cmp r0,Kernel
+beq @@BeastoutTime
+cmp r0,Proto
 beq @@BeastoutTime
 cmp r0,0xA
 bgt @@NoBeastoutTime
@@ -41,6 +47,8 @@ bl 0x8014A8E
 BeastCheckForRelease:
 cmp r0,Kernel
 beq @@RegularCross
+cmp r0,Proto
+beq @@RegularCross
 cmp r0,0xB
 blt @@RegularCross
 mov r15,r14
@@ -49,6 +57,8 @@ bl 0x8015A12
 
 BeastChargeTime:
 cmp r0,Kernel
+beq @@RegularCross
+cmp r0,Proto
 beq @@RegularCross
 cmp r0,0xB
 blt @@RegularCross
@@ -61,6 +71,10 @@ cmp r0,Kernel
 beq @@NonSuperBeast
 cmp r0,KernelBeastOut
 beq @@NonSuperBeast
+cmp r0,Proto
+beq @@NonSuperBeast
+cmp r0,ProtoBeast
+beq @@NonSuperBeast
 cmp r0,0x17
 blt @@NonSuperBeast
 mov r15,r14
@@ -69,6 +83,8 @@ bl 0x8016870
 
 NewFatigueSet:
 cmp r0,Kernel
+beq @@RegularCross
+cmp r0,Proto
 beq @@RegularCross
 cmp r0,0xB
 blt @@RegularCross
@@ -79,6 +95,8 @@ bl 0x80158F8
 NewExtremeFatigueSet:
 cmp r0,KernelBeastOut
 beq @@RegularBeastOut
+cmp r0,ProtoBeast
+beq @@RegularBeastOut
 cmp r0,0x16
 ble @@RegularBeastOut
 bl 0x80158F4
@@ -88,15 +106,24 @@ mov r15,r14
 NewBeastCrossSet:
 cmp r0,KernelBeastOut
 beq @@NewKernelBeastOut
+cmp r0,ProtoBeast
+beq @@NewProtoBeastout
 sub r0,0xC
 mov r4,r0
 mov r15,r14
 @@NewKernelBeastOut:
 mov r4,Kernel
 mov r15,r14
+@@NewProtoBeastout:
+mov r4,Proto
+mov r15,r14
 
 BeastChargeShot:
 cmp r6,KernelBeastOut
+bne @@OtherBeast2
+mov r15,r14
+@@OtherBeast2:
+cmp r6,ProtoBeast
 bne @@OtherBeasts
 mov r15,r14
 @@OtherBeasts:
@@ -109,6 +136,8 @@ bl 0x801329E
 BeastLockOn:
 cmp r0,KernelBeastOut
 beq @@RealBeast
+cmp r0,ProtoBeast
+beq @@RealBeast
 cmp r0, 0x18
 ble @@RealBeast
 bl 0x800FC18
@@ -118,6 +147,8 @@ mov r15,r14
 .vdef BeastLockIconEscape,0x80E28DA,0x80E159A
 BeastLockIcon:
 cmp r0,KernelBeastOut
+beq @@RealBeast
+cmp r0,ProtoBeast
 beq @@RealBeast
 cmp r0, 0x18
 ble @@RealBeast
@@ -150,6 +181,8 @@ bl 0x8015B2E
 BeastBoostNormalAttack:
 cmp r0, KernelBeastOut
 beq @@NormalBeastOut
+cmp r0, ProtoBeast
+beq @@NormalBeastOut
 cmp r0, 0x16
 ble @@NormalBeastOut
 bl 0x800F090
@@ -160,6 +193,8 @@ mov r15,r14
 .vdef escapingVarsword,0x80F0b12,0x80EF7DA
 BeastVarSword:
 cmp r0,KernelBeastOut
+beq @@Finish
+cmp r0,ProtoBeast
 beq @@Finish
 cmp r0,0x18
 bgt @@Finish2

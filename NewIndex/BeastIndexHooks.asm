@@ -11,7 +11,7 @@ bl BeastoutTime
 bl UpdateTurnCount
 
 .org 0x8015A62
-cmp r0,0x1A
+cmp r0,ProtoBeast
 
 .org 0x80159F6
 bl BeastCheckForRelease

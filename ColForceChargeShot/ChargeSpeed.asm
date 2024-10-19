@@ -33,10 +33,17 @@ pop r1-r3
 mov r15,r14
 @@NotColForceChargeShot2:
 cmp r0,0x98
-bne @@NotFlyingAttack
-mov r0,0x1E
+bne @@NotProtoSlash
+mov r1,r3
+ldr r2,=ProtoSwordSpeed
+b @@LoadChargeShotInfo
+@@NotProtoSlash:
+cmp r0,0x99
+bne @@NotProtoBeastSlash
+mov r0,0x20
 mov r15,r14
-@@NotFlyingAttack:
+
+@@NotProtoBeastSlash:
 ldr r2,=0x8020404
 @@LoadChargeShotInfo:
 ldrh r0,[r2,r1]
@@ -44,6 +51,8 @@ mov r15,r14
 .pool
 KernelSwordSpeed:
 .dh 0x46,0x41,0x3C,0x37,0x32 
+ProtoSwordSpeed:
+.dh 80, 70, 60, 55, 50
 KernelArmChangeChipSpeed:
 .dh 0x1,20 ; cannon
 .dh 0x2, 40 ; highcannon

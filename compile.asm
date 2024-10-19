@@ -89,15 +89,19 @@ bl BackgroundCrossWindow
 .include "CrossSwordChange/CrossAnimation.asm"
 .align 2
 .include "WindSword/AirRack.asm"
+
 .endarea
 
 .org 0x81DF420 
 .area 0x88A5
 .align 2
 .include "armchange/ArmMaster.asm"
-
 .align 2
 .include "ColForceChargeShot/ChargeSpeed.asm" ;looksgood
+.align 2
+.include "HeroSword/HeroBuster.asm"
+.align 2
+.include "ProtoBeastChargeAttack/MasterProtoBeast.asm"
 .endarea
 
 .vorga 0xBDEE6,0xBC676
@@ -116,10 +120,16 @@ importsprite BeastColonelSprite,"Sprites/dumps/ColonelBeast_Final.dmp"
 importsprite Saber,"Sprites/dumps/bn6swordwithCol.DMP"
 importsprite ColonelBusterSprite,"Sprites/dumps/Various_Buster_Tips_with_Colonels.DMP"
 importsprite HeatBeast,"Sprites/dumps/HeatBeast.dmp"
+.if gamever==0
 importSprite KernelEmotion,"Sprites/bins/EmotionBeastAndCross.img.bin"
 importSprite KernelTiredEmotion, "Sprites/bins/ColonelTired.img.bin"
-importSprite BeastOutUnCompressed, "Sprites/dumps/beastout.dmp"
+.elseif gamever==1
+importSprite KernelEmotion,"Sprites/EmotionsProtoCross/Emotions/Normal.img.bin"
+importSprite KernelTiredEmotion, "Sprites/EmotionsProtoCross/Emotions/Tired.img.bin"
+.endif 
 
+importSprite BeastOutUnCompressed, "Sprites/dumps/beastout.dmp"
+importsprite ProtoCross, "Sprites/bins/ProtoCross.dmp"
 
 
 .align 4
@@ -142,30 +152,39 @@ pointerrecur "rom.gba",0xEAC60,0
 .endif
 .dw ColonelSliceLoop|1
 .dw NewChargeAttack|1
-
+.dw MainForProtoBeast|1
 
 SoulInit2:
 pointerrecur "rom.gba",0x146B8,0
 .dw 0x801471D
 .dw 0x8014754|1
-
+.dw 0x801471D
+.dw 0x8014760|1
 
 AccessoryCrossList:
 pointerrecur "rom.gba",0x1127C,0 ;same 
 .dw ColonelAccessory|1
+.dw 0x80114D4|1
+.dw ProtoAccessory|1
+.dw 0x8011366|1
+
+
 
 soulattri:
 pointerrecur "rom.gba",0x14550,0 ;same 
 .dw 0x080145b4|1
-.dw 0x08014650|1
-
+.dw 0x080145EC|1
+.dw 0x080145b4|1
+.dw 0x08014606|1
 listofsprites:
 pointercopy "rom.gba",0x31E00,0,0x69 ;same
 .dw ColonelSprite
+.dw ProtoCross
 
 listofSpritesCategoryZero: ;same
 pointercopy "rom.gba",0x31CEC,0,0xE
 .dw BeastColonelSprite
+.dw 0x823b768 ;falzarbeast
 
 
 BackgroundForCustomWindow:
@@ -199,8 +218,10 @@ Collesion:
 .if gamever == 0
 pointerrecur "rom.gba",0xC5B44,0
 .dw 0x80C5AC8 ;0x13 newindex
+.dw 0x80C5AC8 
 .elseif gamever == 1 
 pointerrecur "rom.gba",0xC42D4,0
+.dw 0x80C4258 
 .dw 0x80C4258 
 .endif
 
@@ -209,16 +230,23 @@ pointerrecur "rom.gba",0xC42D4,0
 KillEm:
 pointerrecur "rom.gba",0x11398,0 ;same
 .dw 0x8011212|1
+.dw 0x80114D4|1
+.dw 0x8011212|1
+.dw 0x801140E|1
 
 EnemyAccessoryList:
 pointerrecur "rom.gba",0x10EA4,0 ;same
 .dw ColonelAccessory|1
 .dw 0x80114D4|1
+.dw ProtoAccessory|1
+.dw 0x8011366|1
 
 EnemyAccessoryListKill:
 pointerrecur "rom.gba",0x110F4,0 ;same
 .dw 0x80113FD|1
 .dw 0x80114D4|1
+.dw 0x80113FD|1
+.dw 0x801140E|1
 
 
 
@@ -228,6 +256,8 @@ pointerrecur "rom.gba",0x117D4,0  ;same
 .dw ChargeShotKernelBeastSet|1
 .dw KernelSetSoldier|1 ;Soldiers
 .dw armBuster|1
+.dw HeroSword|1
+.dw naviAttack_subProtoBeast|1
 ;.dw FlySet|1
 
 playercharpointers:
@@ -241,12 +271,20 @@ playercharpointers:
 .endif
 .dw ColonelBeastAttributes
 
+.if gamever == 0
+.dw 0x80F1600
+.elseif gamever == 1
+.dw 0x80F02C0
+.endif
+.dw ProtoBeastAttributes
+
 SpriteIndexes:
 .import "Sprites\bins\spriteindex.bin"
 .db 0xC, 0x69
+.db 0xC, 0x6A
 WindowConstants:
 .import "EmotionWindowChanges\WindowConstants.bin"
-.db Kernel,KernelBeastOut
+.db Kernel,KernelBeastOut,Proto,ProtoBeast
 .align 2
 .include "HeatmanCrossSpriteChange/HeatManCrossSpriteChange.asm" ;okay
 .align 2
@@ -267,9 +305,9 @@ CrossWindows:
 .import "Sprites/bins/ColonelGray.img.bin"
 .elseif gamever==1
 .import "Sprites/bins/FalzarCrossWindow.bin"
-.import "Sprites/bins/ColonelSelection.img.bin"
+.import "Sprites/CrossSelection/ProtoNormal.img.bin"
 .import "Sprites/bins/FalzarCrossWindowsGrayScale.bin"
-.import "Sprites/bins/ColonelGray.img.bin"
+.import "Sprites/CrossSelection/ProtoGreyed.img.bin"
 .endif
 PalettesForCrossWindow:
 .if gamever==0
@@ -279,9 +317,9 @@ PalettesForCrossWindow:
 .import "Sprites/bins/ColonelSelect2.pal.bin"
 .elseif gamever==1
 .import "Sprites/bins/CrossPalettesFalzar.bin"
-.import "Sprites/bins/ColonelSelection.pal.bin"
+.import "Sprites/CrossSelection/ProtoNormal.pal.bin"
 .import "Sprites/bins/CrossPalettesFalzarBlueScale.bin"
-.import "Sprites/bins/ColonelSelect2.pal.bin"
+.import "Sprites/CrossSelection/ProtoHighlight.pal.bin"
 
 .endif
 MapCrossWindow:
@@ -289,40 +327,66 @@ MapCrossWindow:
 MegamanNewPalette:
 .import "Sprites/palette/megaman.pal.bin"
 .import "Sprites/bins/BaseMegaman.pal.bin"
+.import "Sprites/bins/BaseMegaProtoPal.bin"
+
 PaletteEmotionColonelCross:
+.if gamever==0
 .import "Sprites/bins/EmotionColonelCross.pal.bin"
+.elseif gamever ==1
+.import "Sprites/EmotionsProtoCross/Emotions/Normal.pal.bin"
+.endif
 PaletteEmotionKernelCrossBeast:
+.if gamever==0
 .import "Sprites/bins/EmotionColonelBeast.pal.bin"
+.elseif gamever ==1
+.import "Sprites/EmotionsProtoCross/Emotions/Beast.pal.bin"
+.endif
 PaletteTiredKernelCross:
+.if gamever==0
 .import "Sprites/bins/ColonelTired.pal.bin"
+.elseif gamever ==1
+.import "Sprites/EmotionsProtoCross/Emotions/Tired.pal.bin"
+.endif
 MegamanNewPaletteIndex:
 .import "Sprites/bins/paletteindex.bin"
 .db 0x2B,0x0
+.db 0x2C,0x0
 CrossAttackSettings:
 .import "ColForceChargeShot/CrossSettingsAttack.bin"
 .db 0xFF,0xFF,0x00,0x94,0x96,0xFF ;ColonelCross
 .db 0xFF, 0x05,0x04,0xFF,0x96,0x95 ;ColonelBeast ;0x05 to put everything back
+.db 0xFF,0xFF,0x00,0x98,0xFF,0xFF ;ProtoCross
+.db 0xFF,0x05,0x03,0xFF,0xFF,0x99 ; protobeast
 MegamanCharPosition:
 .import "MegamanCharPosition/MegamanPos.bin"
 .db 0x0,0xE
+.db 0x0,0xF
 NewEnemyList:
 .import "newenemylist/newenemyattributes.bin"
 .db 0x0,0x2,0x31 ;ColonelCross
 .db 0x0,0x2,0x32 ;ColonelCrossBeast
+.db 0x0,0x2,0x33 ;ProtoCross
+.db 0x0,0x2,0x34 ;Protobeast
+
 
 ColonelBeastAttributes:
 .db 0x0,0xE,0x1,0x2,0x0
-
+ProtoBeastAttributes:
+.db 0x0,0xF,0x1,0x2,0x0
 BeastOutAdjust:
 .import "newenemylist/beastoutadjust.bin"
 .db 0x1
+.db 0x2
+.db 0x1
+.db 0x2
 
 SecondType:
 .import "ElementalChange/SecondElements.bin"
 .db 0x0 
 .db 0x40 ;Kernel
 .db 0x40 ;Kernel Beast
-
+.db 0x10 ;Proto
+.db 0x10 ;Proto Beast
 
 
 
@@ -429,10 +493,10 @@ SecondType:
 
 
 .vorga 0xE6580,0xE5240
-.dw 0x1C5
+.dw 0x1C7
 
 .vorga 0xE2B24,0xE17E4
-.dw 0x1C5
+.dw 0x1C7
 
 
 .org listofsprites+0x5*4

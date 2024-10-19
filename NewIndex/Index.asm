@@ -20,7 +20,7 @@ bl TESTFORBEASTAfterChoosingCross
 bl ReIndex
 
 .org 0x8014A44
-cmp r0,0x1A
+cmp r0,ProtoBeast
 bgt 0x8014AA8
 bl NewCompForCross
 .org 0x8014A58
@@ -29,6 +29,10 @@ bl TESTFORBEASTCROSS
 bl TESTFOREGULARCROSS
 .vorg 0x80BDF6E,0x80BC6FE
 bl PaletteForColonel
+
+.vorg 0x80BDF18,0x80BC6A8
+bl PaletteForProto
+
 .vorg 0x80F16F4,0x80F03B4
 bl newTestSuperBeast
 

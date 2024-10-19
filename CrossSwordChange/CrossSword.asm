@@ -38,6 +38,8 @@ LoadingDefaultSaber:
 mov r7,0x0
 cmp r0,0xB
 blt LoadSaber
+cmp r0,Proto
+beq LoadSaber
 mov r7,0xC
 cmp r0,0xC
 beq SomeSaber
@@ -45,6 +47,8 @@ cmp r0,0x17
 beq LoadSaber
 cmp r0,0x11
 ble LoadSaber
+cmp r0,KernelBeastOut
+beq LoadSaber
 SomeSaber:
 mov r7,0xD
 LoadSaber:
