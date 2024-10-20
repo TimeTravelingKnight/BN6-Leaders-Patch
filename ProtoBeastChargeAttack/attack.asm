@@ -5,7 +5,7 @@ push r14
 ldrh r0,[r7,0x10]
 cmp r0 ,0x8
 bne @@CounterSet 
-mov r0,0x15
+mov r0,15
 bl @SetCommonSeq
 @@CounterSet:
 ldrh r0,[r7,0x10]

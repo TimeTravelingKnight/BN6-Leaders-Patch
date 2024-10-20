@@ -11,15 +11,19 @@ ProtoBeastAttack2:
 push r4,r6,r7,r15
 ldrb r0,[r7,0x10]
 cmp r0,0x14
-beq @@CounterDown
+bne @@CounterDown
 
 bl @CalcPlEmDirSpd
 ldrb r1,[r5,0x12]
-add r0,r0,r1
+add r1,r1,r0
+
+mov r0,r1
 ldrb r1,[r5,0x13]
 bl @GetBlockPos
 mov r2,r1
 mov r1,r0
+mov r3,20
+add r0,r0,r3
 mov r3,0
 ldrb r0,[r5,0x16]
 ldrb r4,[r5,0x17]
