@@ -1,6 +1,8 @@
 naviAttack_subProtoBeast:
 push r14
 mov r0,0
+strb r0,[r7,0]
+strb r0,[r7,1]
 strb r0,[r7,4]
 strb r0,[r7,5]
 strb r0,[r7,6]

@@ -3,6 +3,8 @@ cmp r0,KernelBeastOut
 beq @@BLEFT
 cmp r0,0x14
 beq @@BLEFT
+cmp r0,ProtoBeast
+beq @@BLEFT
 mov r15,r14
 @@BLEFT:
 bl 0x801319C

@@ -2,6 +2,7 @@
 @em_sub2_SetCommonSeqNo equ 0x800F2b6
 @reverse_RevereSet equ  0x801BB1C
 @BlockToPos equ 0x800E29C
+
 @BlockPosSet       equ      0x801A04C
 .vdef LockOnTech,0x80F02FC,0x80EEFBC
 ProtoBeastInitAttack:
@@ -45,7 +46,7 @@ chiprangegetShiftPos equ 0x8026554
 ProtoBeastSub00:
 push r4,r6,r7,r14
 bl GetLockOn
-mov r2,2
+mov r2,0x2
 bl chiprangegetShiftPos
 pop r4,r6,r7,r15
 

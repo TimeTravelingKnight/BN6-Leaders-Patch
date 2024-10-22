@@ -7,34 +7,23 @@
 .vdef Parameters2, 0x8104CC0,0x8103998
 @CounterTimer equ 0x800FDB6
 @newSoundReq equ 0x80005CC
+@AccessoryReset equ 0x8011450
+;.vdef navi_sword_arm_type_check0,0x80ECE74,0x80EBB34
+;.vdef navi_sword_arm_seq_check0, 0x80ECE28,0x80EBAE8
+.vdef navi_sword_color, 0x80ECEB8,0x80EBB78
+;.vdef setEm05NonBX, 0x80BA6A0,0x80B8E30
+
 ProtoBeastAttack2:
 push r4,r6,r7,r15
 ldrb r0,[r7,0x10]
 cmp r0,0x14
 bne @@CounterDown
 
-bl @CalcPlEmDirSpd
-ldrb r1,[r5,0x12]
-add r1,r1,r0
-
-mov r0,r1
-ldrb r1,[r5,0x13]
-bl @GetBlockPos
-mov r2,r1
-mov r1,r0
-mov r3,20
-add r0,r0,r3
-mov r3,0
-ldrb r0,[r5,0x16]
-ldrb r4,[r5,0x17]
-eor r0,r4
-lsl r0,r0,8
-mov r4,4
-orr r4,r0
-bl EFC31SET
+bl MakingClones
 push r7
 bl @CalcPlEmDirSpd
 ldrb r1,[r5,0x12]
+add r1,r1,r0
 add r1,r1,r0
 mov r0,r1
 ldrb r1,[r5,0x13]
@@ -48,6 +37,7 @@ bl SetShlNew03
 
 bl @CalcPlEmDirSpd
 ldrb r1,[r5,0x12]
+add r1,r1,r0
 mov r0,r1
 ldrb r1,[r5,0x13]
 mov r2,0
@@ -60,7 +50,7 @@ bl SetShlNew03
 
 pop r7
 
-bl @CounterTimer
+;bl @CounterTimer
 mov r0,0x59
 add r0,0xFF
 bl @newSoundReq 

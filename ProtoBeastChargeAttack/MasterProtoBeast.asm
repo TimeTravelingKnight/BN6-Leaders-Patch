@@ -5,7 +5,7 @@
 .include "attack.asm"
 .include "init.asm"
 .include "SetProtoBeastAttack.asm"
-
+.include "shadowclone.asm"
 MainForProtoBeast:
 push r14
 ldr r1,=PoolForProtoBeast
