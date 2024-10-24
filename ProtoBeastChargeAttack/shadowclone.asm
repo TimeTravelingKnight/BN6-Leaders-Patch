@@ -45,13 +45,17 @@ lsl r0,r0,0x18
 eor r4,r0
 
 bl SetEFC28
+ldrb r1,[r0,0x7]
+strh r1,[r0,0x16]
+
 pop r1-r7
 push r1-r7
-
 ldrb r0,[r5,0x12]
 ldrb r1,[r5,0x13]
 add r1,1
 bl @PosToBlock
+
+
 
 mov r2,r1
 mov r1,r0

@@ -16,10 +16,25 @@
 ProtoBeastAttack2:
 push r4,r6,r7,r15
 ldrb r0,[r7,0x10]
-cmp r0,0x14
+cmp r0,0x7
 bne @@CounterDown
 
 bl MakingClones
+
+
+;bl @CounterTimer
+mov r0,0x59
+add r0,0xFF
+bl @newSoundReq 
+
+
+
+
+@@CounterDown:
+ldrh r0,[r7,0x10]
+sub r0,1
+strh r0,[r7,0x10]
+bgt @@Escape
 push r7
 bl @CalcPlEmDirSpd
 ldrb r1,[r5,0x12]
@@ -50,25 +65,19 @@ bl SetShlNew03
 
 pop r7
 
-;bl @CounterTimer
-mov r0,0x59
-add r0,0xFF
-bl @newSoundReq 
 
-
-
-
-@@CounterDown:
-ldrh r0,[r7,0x10]
-sub r0,1
-strh r0,[r7,0x10]
-bgt @@Escape
 mov r0,0x4
 bl @em_sub2_SetCommonSeqNo
 mov r0,0x3
 strh r0,[r7,0x10]
 mov r0,0xC
 strh r0,[r7]
+
+mov r0,0
+str r0,[r5,0x4C]
+ldr r1,[r5,0x58]
+str r0,[r1,0x68]
+strb r0,[r7,0x1]
 
 @@Escape:
 pop r4,r6,r7,r15

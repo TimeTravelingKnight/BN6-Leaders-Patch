@@ -51,11 +51,7 @@ mov r0,0x10
 strh r0,[r7]
 mov r0,0x3
 strh r0,[r7,0x10]
-mov r0,0
-str r0,[r5,0x4C]
-ldr r1,[r5,0x58]
-str r0,[r1,0x68]
-strb r0,[r7,0x1]
+
 @@Escape:
 pop r15
 

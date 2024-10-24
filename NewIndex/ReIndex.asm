@@ -1,23 +1,22 @@
 NewWeakCheck:
 cmp r0,Kernel
 beq @@ChooseMegamanType
+cmp r0,Proto
+beq @@ChooseMegamanType
+
 cmp r0,0xA
 ble @@ChooseMegamanType
 mov r1,0xB
 cmp r0,KernelBeastOut
 beq @@ChooseMegamanType
-cmp r0,Proto
-beq @@ChooseMegamanType
-cmp r0,ProtoBeast
-beq @@ChooseMegamanType
+
 
 cmp r0, 0x11
 ble @@ChooseMegamanType
-
-
-
-
 mov r1,0xC
+cmp r0,ProtoBeast
+beq @@ChooseMegamanType
+
 
 @@ChooseMegamanType:
 bl 0x0801580A
