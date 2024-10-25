@@ -21,7 +21,7 @@ filesizerom equ filesize("rom.gba")
 .include "macros/helpermacro.asm" ;
 .include "Constants/IndexConstants.asm"
 
-;.include "ColBeastCrossChargeShot/GregarAttack.asm" ;looks good
+.include "ColBeastCrossChargeShot/GregarAttack.asm" ;looks good
 
 .include "addingnewcrosswindow/CrossWindow.asm" ;looks good
 .include "EmotionWindowChanges/EmotionHooks.asm" ;looks good
@@ -89,6 +89,7 @@ bl BackgroundCrossWindow
 .include "CrossSwordChange/CrossAnimation.asm"
 .align 2
 .include "WindSword/AirRack.asm"
+
 
 .endarea
 
