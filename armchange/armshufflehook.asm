@@ -1,0 +1,2 @@
+.vorg 0x802A5E2,0x802A5E6
+bl ShuffleDontOverWrite

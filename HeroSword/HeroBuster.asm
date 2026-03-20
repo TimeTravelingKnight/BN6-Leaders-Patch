@@ -11,6 +11,12 @@ ldrb r1,[r4,0xC]
 strb r1,[r7,0x3]
 ldr r1,[r4,0x10]
 str r1,[r7,0xC]
+mov r0,0x80
+strb r0,[r7,0x2]
+ldrb r0,[r7,0xA]
+mov r1,0x80
+orr r0,r1
+strb r0,[r7,0xA]
 ldrb r0,[r4,0xB]
 bl @SetAttack
 mov r0,0x28

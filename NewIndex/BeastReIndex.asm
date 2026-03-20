@@ -192,7 +192,7 @@ bl 0x800F090
 mov r15,r14
 
 
-.vdef escapingVarsword,0x80F0b12,0x80EF7DA
+;.vdef escapingVarsword,0x80F0b12,0x80EF7DA
 BeastVarSword:
 cmp r0,KernelBeastOut
 beq @@Finish
@@ -203,4 +203,7 @@ bgt @@Finish2
 @@Finish:
 mov r15,r14
 @@Finish2:
-bl escapingVarsword ;0x80F0B12
+pop r4,r15
+;ldrb r0,[r4,0xF]
+;strb r0,[r7,0x1D]
+;mov r15,r14 ;0x80F0B12

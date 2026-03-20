@@ -8,5 +8,5 @@ strb r0,[r7,0xC]
 ldrh r0,[r7,0x8]
 add r0,r0,r0
 strh r0,[r7,0x8]
-mov r0,0x13
-pop r4,r14
+mov r0,0x62
+pop r4,r15

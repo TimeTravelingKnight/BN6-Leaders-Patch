@@ -1,0 +1,2 @@
+.org 0x8012BAC ;same
+bl TAKEOVER2XPROTO

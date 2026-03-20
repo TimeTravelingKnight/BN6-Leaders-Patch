@@ -77,5 +77,8 @@ nop
 .org 0x800F062
 bl BeastBoostNormalAttack
 
+.vorg 0x80f0c8a,0x80EF94A
+bl BeastVarSword
+
 .vorg 0x80F0B0A,0x80EF7CA
 bl BeastVarSword

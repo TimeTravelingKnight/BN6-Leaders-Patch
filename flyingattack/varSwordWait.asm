@@ -1,32 +1,35 @@
-.vdef varswordinit,0x80F0988,0x80F0988
-naviStatusGet equ 0x8013774
+;0x80F0988,0x80EF648
+.vdef varswordfail,0x80F0Ab4,0x80EF774
+.vdef Neovarswordfail,0x80F0c34,0x80EF8f4
 varDelay:
-push r14
-mov r1,0x2C
-bl naviStatusGet
-cmp r0,0x3
+cmp r1,0x3
 beq @@SlashRoute
-cmp r0,0xF
+cmp r1,0xF
 beq @@SlashRoute
-cmp r0,Kernel
+cmp r1,Proto
 beq @@SlashRoute
-cmp r0,KernelBeastOut
+cmp r1,ProtoBeast
 bne @@StartVarSword
-
 @@SlashRoute:
-ldrh r0,[r7,0x12]
-tst r0,r0
-beq @@Init
-sub r0,r0,1
-strh r0,[r7,0x12]
-tst r0,r0
-bne @@Finish
+pop r4,r15
 @@StartVarSword:
-bl varswordinit
-b @@Finish
+ldr r0,=varswordfail|1
+bx r0
+.pool
 
-@@Init:
-mov r0,5
-strh r0,[r7,0x12]
-@@Finish:
-pop r15
+NeoVarDelay:
+cmp r1,0x3
+beq @@SlashRoute
+cmp r1,0xF
+beq @@SlashRoute
+cmp r1,Proto
+beq @@SlashRoute
+cmp r1,ProtoBeast
+bne @@StartVarSword
+@@SlashRoute:
+pop r4,r15
+@@StartVarSword:
+ldr r0,=Neovarswordfail|1
+bx r0
+.pool
+

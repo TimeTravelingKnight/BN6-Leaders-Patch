@@ -1,8 +1,16 @@
-.vorg 0x80F0A96,0x80F0A96
-nop
 
-.vorg 0x80F0A9A,0x80F0A9A
-nop
 
-.vorg 0x80F0980,0x80F0980
-.dw varDelay|1
+.vdef varswordcheckSlash,0x80f0a94,0x80EF754 
+
+
+.org varswordcheckSlash
+ldr r0,=varDelay|1
+bx r0
+.pool
+
+.vdef neovarswordcheckSlash,0x80f0c14,0x80ef8d4
+
+.org neovarswordcheckSlash
+ldr r0,=NeoVarDelay|1
+bx r0
+.pool

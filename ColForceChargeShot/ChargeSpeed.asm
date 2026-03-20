@@ -39,6 +39,11 @@ ldr r2,=ProtoSwordSpeed
 b @@LoadChargeShotInfo
 @@NotProtoSlash:
 cmp r0,0x99
+bne @@ProtoStepSwordCharge
+mov r0,0x20
+mov r15,r14
+@@ProtoStepSwordCharge:
+cmp r0,0x9A
 bne @@NotProtoBeastSlash
 mov r0,0x20
 mov r15,r14
