@@ -12,5 +12,13 @@ mov r1,0x29
 bl gettingNAVIINFO3
 pop r15
 @@Get2X:
+cmp r6,0x4C
+blt @@CheckType
+cmp r6,0x4F
+ble @@EnableCharge
+@@CheckType:
 mov r0,0xB
 pop r15
+@@EnableCharge:
+mov r6,0x47
+b @@CheckType
