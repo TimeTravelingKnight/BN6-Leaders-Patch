@@ -75,8 +75,10 @@ mov r2,0x0
 mov r3,0x0
 ldr r6,[r7,0x8]
 push r7
-mov r7,0x3
+mov r7,0x1
 BXwithR11 SetShl03
+mov r1,0xD6
+strb r1,[r0,1]
 pop r7
 BXwithR11 @FlipCheck 
 lsl r4,r0,0x8

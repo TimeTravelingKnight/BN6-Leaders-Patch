@@ -55,7 +55,7 @@ ldrh r0,[r2,r1]
 mov r15,r14
 .pool
 KernelSwordSpeed:
-.dh 0x46,0x41,0x3C,0x37,0x32 
+.dh 80,70,60,55,50;0x46,0x41,0x3C,0x37,0x32 
 ProtoSwordSpeed:
 .dh 80, 70, 60, 55, 50
 KernelArmChangeChipSpeed:

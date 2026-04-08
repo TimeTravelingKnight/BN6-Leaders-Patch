@@ -108,7 +108,8 @@ bl BackgroundCrossWindow
 .include "ColForceChargeShot/Proto2XCHECK.asm"
 .align 2
 .include "armchange/armshufflecheck.asm"
-
+.align 2
+.include "ColBeastCrossChargeShot/getDirection.asm"
 .endarea
 
 .vorga 0xBDEE6,0xBC676
@@ -152,6 +153,7 @@ importSprite KernelTiredEmotion, "Sprites/EmotionsProtoCross/Emotions/Tired.img.
 importSprite BeastOutUnCompressed, "Sprites/dumps/beastout.dmp"
 importsprite ProtoCross, "Sprites/bins/ProtoCross.dmp"
 
+importsprite RocketSprite, "Sprites/bins/rocket.dmp"
 
 .align 4
 FirstArm:
@@ -163,6 +165,28 @@ ArmICON:
 PALLETEARM:
 .incbin "armchange/ARMBG/ArmPalette.bin"
 
+.align 4
+newColonelChipIcon:
+.incbin "bn6chips/kernelchipicon.bin"
+ColonelChipPal:
+.incbin "bn6chips/chippal.bin"
+
+.align 4 
+NewChipTable:
+.if gamever==0
+.incbin "bn6chips/gregarchiptable.bin"
+.elseif gamever==1
+.incbin "bn6chips/falzarchiptable.bin"
+.endif 
+.include "bn6chips/colonelchip.asm"
+
+.align 4
+bn6newmessageforchips:
+.incbin "bn6chips/newmessage.msg"
+
+
+
+
 ;falzar is 0x80EAC60
 .align 4
 PointerAttackList:
@@ -172,10 +196,11 @@ pointerrecur "rom.gba",0xEBFA0,0
 pointerrecur "rom.gba",0xEAC60,0
 .endif
 .dw ColonelSliceLoop|1
-.dw NewChargeAttack|1
+.dw wrapperToBreakCannon|1;wrapperToAspire|1 ;;wrapperToCannon|1;wrapperToAspire|1 ;NewChargeAttack|1
 .dw wrapperToFalzarProtoCharge|1
 ;.dw MainForProtoBeast|1
 .dw wrapperToFly|1
+.dw wrapperToAspire|1
 
 SoulInit2:
 pointerrecur "rom.gba",0x146B8,0
@@ -203,6 +228,7 @@ listofsprites:
 pointercopy "rom.gba",0x31E00,0,0x69 ;same
 .dw ColonelSprite
 .dw ProtoCross
+.dw RocketSprite
 
 listofSpritesCategoryZero: ;same
 pointercopy "rom.gba",0x31CEC,0,0xE
@@ -234,6 +260,8 @@ pointerrecur "rom.gba",0x28C9C,0 ;same
 custom_movePointers:
 pointerrecur "rom.gba",0x26AA4,0 ;same
 .dw ARMEffectMain|1    ;24
+
+
 
 
 
@@ -271,6 +299,15 @@ pointerrecur "rom.gba",0x110F4,0 ;same
 .dw 0x80113FD|1
 .dw 0x80114D4|1  ;0x801140E|1 remove wings but we don't need that
 
+
+NewShlList:
+.if gamever == 0
+.import "shltable/gregshl.bin"
+.elseif gamever == 1 
+.import "shltable/falzarshl.bin"
+.endif
+.dw wrapperToRocket|1 ;209
+.dw wrapperToPierce|1 ;210
 
 
 ChargeAttackList:
@@ -530,6 +567,19 @@ BusterFeather:
 
 .org listofsprites+0x5*4
 .dw BeastOutUnCompressed
+
+
+.org 0x800322C ;same
+.dw NewShlList
+
+
+.org 0x8027d30 ;same location of message for chips
+.dw bn6newmessageforchips
+
+
+.org 0x8021Ab0 ;same chiptableloc
+.dw NewChipTable
+
 
 ;.include "feathers/feathershook.asm"
 
